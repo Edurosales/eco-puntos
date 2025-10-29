@@ -20,8 +20,28 @@ const Reciclaje = () => {
       console.log('Reciclaje.js - Cargando puntos de acopio...');
       const data = await publicService.getPuntosAcopioPublico();
       console.log('Reciclaje.js - Puntos recibidos:', data);
-      setPuntosAcopio(data);
-      setPuntosFiltrados(data);
+      
+      // Extraer departamento/provincia/distrito de la dirección automáticamente
+      const puntosConUbicacion = data.map(punto => {
+        // Si ya tiene los datos, mantenerlos
+        if (punto.departamento && punto.provincia && punto.distrito) {
+          return punto;
+        }
+        
+        // Extraer de la dirección (formato típico: "Calle, Distrito, Provincia")
+        const direccion = punto.direccion || '';
+        const partes = direccion.split(',').map(p => p.trim());
+        
+        return {
+          ...punto,
+          departamento: punto.departamento || 'Lima', // Por defecto Lima
+          provincia: punto.provincia || (partes.length > 2 ? partes[2] : 'Lima'),
+          distrito: punto.distrito || (partes.length > 1 ? partes[1] : partes[0])
+        };
+      });
+      
+      setPuntosAcopio(puntosConUbicacion);
+      setPuntosFiltrados(puntosConUbicacion);
     } catch (error) {
       console.error('Error al cargar puntos de acopio:', error);
       setPuntosAcopio([]);
@@ -164,12 +184,6 @@ const Reciclaje = () => {
           
           {/* Filtros */}
           <div className="filter-container mb-4">
-            {departamentos.length === 0 && puntosAcopio.length > 0 && (
-              <div className="alert alert-info mb-3" style={{ background: 'rgba(0, 255, 255, 0.1)', border: '1px solid rgba(0, 255, 255, 0.3)', color: '#00ffff' }}>
-                <i className="fas fa-info-circle me-2"></i>
-                Los puntos de acopio aún no tienen ubicación geográfica configurada. Los filtros estarán disponibles cuando se agregue esta información desde el panel de administración.
-              </div>
-            )}
             <Form>
               <Row className="g-3">
                 <Col md={3}>
