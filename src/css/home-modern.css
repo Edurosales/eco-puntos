@@ -1,0 +1,608 @@
+/* ============================================
+   ECOPUNTOS - HOME MODERNO Y PROFESIONAL
+   Usando Bootstrap + Personalizaciones Sutiles
+   ============================================ */
+
+/* ===== VARIABLES GLOBALES ===== */
+:root {
+  --primary-green: #00FF00;
+  --secondary-green: #00D100;
+  --dark-bg: #000000;
+  --light-bg: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --border-green: rgba(0, 255, 0, 0.3);
+  --shadow-soft: 0 4px 15px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 6px 20px rgba(0, 255, 0, 0.4);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== RESET Y BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+  background-color: var(--dark-bg);
+}
+
+/* ===== SECCIÓN INICIO (HERO) ===== */
+.home-hero {
+  min-height: 100vh;
+  background: radial-gradient(circle at 85% 50%, var(--light-bg), var(--dark-bg));
+  position: relative;
+  overflow: hidden;
+  padding-top: 100px;
+}
+
+.home-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 85% 50%, rgba(255,255,255,0.8) 0%, rgba(0,0,0,0) 70%);
+  z-index: 0;
+}
+
+.home-hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: 1rem;
+  color: var(--light-bg);
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1.5rem;
+  color: var(--light-bg);
+  font-weight: 600;
+}
+
+.hero-description {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 30px rgba(79, 172, 254, 0.3));
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+/* ===== BOTONES PROFESIONALES ===== */
+.btn-modern {
+  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  border: none;
+  padding: 0.75rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  color: white;
+  box-shadow: var(--shadow-glow);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+}
+
+.btn-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.btn-modern:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 255, 0, 0.6);
+}
+
+.btn-modern:hover::before {
+  left: 100%;
+}
+
+.btn-modern:active {
+  transform: translateY(0);
+}
+
+.btn-outline-modern {
+  background: transparent;
+  border: 2px solid var(--primary-green);
+  color: var(--primary-green);
+  padding: 0.75rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-outline-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  transition: width 0.4s;
+  z-index: -1;
+}
+
+.btn-outline-modern:hover {
+  color: white;
+  border-color: var(--secondary-green);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+.btn-outline-modern:hover::before {
+  width: 100%;
+}
+
+/* ===== CARDS MODERNAS ===== */
+.card-modern {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--border-green);
+  border-radius: 20px;
+  padding: 2rem;
+  transition: var(--transition-smooth);
+  height: 100%;
+}
+
+.card-modern:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary-green);
+  box-shadow: 0 10px 40px rgba(0, 255, 0, 0.3);
+}
+
+.card-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  box-shadow: var(--shadow-glow);
+  transition: var(--transition-smooth);
+}
+
+.card-modern:hover .card-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.card-icon i {
+  font-size: 2.5rem;
+  color: white;
+}
+
+/* ===== SECCIÓN QUIÉNES SOMOS ===== */
+.section-dark {
+  background: radial-gradient(circle at 50% 20%, rgba(0, 255, 0, 0.1) 0%, var(--dark-bg) 60%);
+  padding: 5rem 0;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1rem;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.section-subtitle {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* ===== LLAMADO A LA ACCIÓN (CTA) ===== */
+.cta-box {
+  background: radial-gradient(circle at 50% 20%, rgba(0, 255, 0, 0.15) 0%, rgba(0, 0, 0, 0.9) 60%);
+  border-radius: 20px;
+  padding: 3.5rem 2.5rem;
+  border: 2px solid var(--border-green);
+  box-shadow: var(--shadow-medium);
+  text-align: center;
+  margin: 3rem auto;
+  max-width: 900px;
+  transition: var(--transition-smooth);
+}
+
+.cta-box:hover {
+  border-color: var(--primary-green);
+  box-shadow: 0 15px 50px rgba(0, 255, 0, 0.4);
+}
+
+.benefit-card {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  border-radius: 15px;
+  border: 1px solid var(--border-green);
+  transition: var(--transition-smooth);
+}
+
+.benefit-card:hover {
+  background: rgba(0, 255, 0, 0.1);
+  border-color: var(--primary-green);
+  transform: translateY(-3px);
+}
+
+.benefit-card i {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* ===== MAPA Y FILTROS ===== */
+.map-section {
+  background: var(--dark-bg);
+  padding: 4rem 0;
+}
+
+.filter-container {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--border-green);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.map-container {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 2px solid var(--border-green);
+  box-shadow: var(--shadow-medium);
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+}
+
+.map-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ===== INPUTS Y FORMS ===== */
+.form-control-modern {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid var(--border-green);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  color: white;
+  transition: var(--transition-smooth);
+}
+
+.form-control-modern:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px rgba(0, 255, 0, 0.2);
+  color: white;
+  outline: none;
+}
+
+.form-control-modern::placeholder {
+  color: var(--text-muted);
+}
+
+.form-control-modern option {
+  background: #1a1a1a;
+  color: white;
+}
+
+.form-select.form-control-modern {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2300FF00' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+}
+
+.form-label-modern {
+  color: white;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+
+/* ===== REVIEWS / RESEÑAS ===== */
+.review-card {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--border-green);
+  border-radius: 20px;
+  padding: 2rem;
+  transition: var(--transition-smooth);
+}
+
+.review-card:hover {
+  border-color: var(--primary-green);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 255, 0, 0.3);
+}
+
+.review-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary-green);
+  margin-bottom: 1rem;
+}
+
+.review-stars {
+  color: #FFD700;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+/* ===== CONTACTO ===== */
+.contact-form {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--border-green);
+  border-radius: 20px;
+  padding: 2.5rem;
+}
+
+.contact-info-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(0, 255, 0, 0.05);
+  border-radius: 12px;
+  border: 1px solid var(--border-green);
+  transition: var(--transition-smooth);
+}
+
+.contact-info-item:hover {
+  background: rgba(0, 255, 0, 0.1);
+  border-color: var(--primary-green);
+  transform: translateX(5px);
+}
+
+.contact-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.contact-icon i {
+  color: white;
+  font-size: 1.5rem;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablets */
+@media (max-width: 992px) {
+  .home-hero {
+    padding-top: 80px;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .section-title {
+    font-size: 2.2rem;
+  }
+
+  .cta-box {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .card-modern {
+    margin-bottom: 1.5rem;
+  }
+
+  .filter-container {
+    padding: 1.5rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .home-hero {
+    padding-top: 70px;
+    min-height: auto;
+    padding-bottom: 3rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+    margin-top: 1rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .btn-modern,
+  .btn-outline-modern {
+    padding: 0.6rem 1.8rem;
+    font-size: 1rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+  }
+
+  .cta-box {
+    padding: 2rem 1rem;
+    margin: 2rem 1rem;
+  }
+
+  .card-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .card-icon i {
+    font-size: 2rem;
+  }
+
+  .benefit-card {
+    margin-bottom: 1rem;
+  }
+
+  .filter-container {
+    padding: 1rem;
+  }
+
+  .map-container {
+    padding-bottom: 75%; /* Más cuadrado en mobile */
+  }
+
+  .contact-form {
+    padding: 1.5rem;
+  }
+
+  .review-card {
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 576px) {
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .section-dark {
+    padding: 3rem 0;
+  }
+
+  .cta-box {
+    padding: 1.5rem 1rem;
+  }
+
+  .card-modern {
+    padding: 1.5rem;
+  }
+
+  .benefit-card i {
+    font-size: 2rem;
+  }
+
+  .contact-info-item {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* ===== UTILIDADES ===== */
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow-text {
+  text-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+}
+
+.fadeIn {
+  animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== LOADING STATES ===== */
+.spinner-modern {
+  border: 3px solid rgba(0, 255, 0, 0.2);
+  border-top-color: var(--primary-green);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== SCROLL BEHAVIOR ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+.section-spacer {
+  padding: 4rem 0;
+}
+
+@media (max-width: 768px) {
+  .section-spacer {
+    padding: 2.5rem 0;
+  }
+}

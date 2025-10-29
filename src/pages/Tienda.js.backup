@@ -1,0 +1,293 @@
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Card, Button, Badge, Modal, Form, Spinner, Alert } from 'react-bootstrap';
+import { useAuth } from '../context/AuthContext';
+import { useNotification } from '../context/NotificationContext';
+import { generalService, clienteService } from '../services/clienteService';
+import { FaStore, FaCoins, FaShoppingCart, FaMapMarkerAlt } from 'react-icons/fa';
+import '../css/home-modern.css';
+
+const Tienda = () => {
+  const { user, updateUser } = useAuth();
+  const { success, error } = useNotification();
+  const [articulos, setArticulos] = useState([]);
+  const [puntosAcopio, setPuntosAcopio] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedArticulo, setSelectedArticulo] = useState(null);
+  const [selectedPuntoAcopio, setSelectedPuntoAcopio] = useState('');
+  const [canjeando, setCanjeando] = useState(false);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const [articulosData, puntosData] = await Promise.all([
+        generalService.getArticulos(),
+        clienteService.getPuntosAcopio()
+      ]);
+      setArticulos(articulosData);
+      setPuntosAcopio(puntosData);
+    } catch (err) {
+      error('Error al cargar los datos');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCanjear = (articulo) => {
+    if ((user?.puntos || 0) < articulo.puntos_requeridos) {
+      error('No tienes suficientes puntos para este artículo');
+      return;
+    }
+    setSelectedArticulo(articulo);
+    setShowModal(true);
+  };
+
+  const handleConfirmarCanje = async () => {
+    if (!selectedPuntoAcopio) {
+      error('Por favor selecciona un punto de acopio para recoger tu premio');
+      return;
+    }
+
+    setCanjeando(true);
+
+    try {
+      const data = await clienteService.canjearPuntos(
+        selectedArticulo.id_articulo,
+        selectedPuntoAcopio
+      );
+      
+      success(`¡Canje exitoso! Puedes recoger tu premio en el punto de acopio seleccionado`);
+      
+      // Actualizar puntos del usuario
+      if (user && selectedArticulo) {
+        updateUser({ puntos: (user.puntos || 0) - selectedArticulo.puntos_requeridos });
+      }
+      
+      setShowModal(false);
+      setSelectedArticulo(null);
+      setSelectedPuntoAcopio('');
+    } catch (err) {
+      const mensaje = err.response?.data?.message || 'Error al canjear puntos';
+      error(mensaje);
+      console.error(err);
+    } finally {
+      setCanjeando(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <section className="section-dark" style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div className="spinner-modern" style={{ width: '60px', height: '60px' }}></div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="section-dark" style={{ minHeight: '100vh', paddingTop: '100px', paddingBottom: '50px' }}>
+      <Container>
+        {/* Cabecera */}
+        <Row className="mb-4">
+          <Col>
+            <div className="d-flex justify-content-between align-items-center flex-wrap">
+              <div>
+                <h1 className="section-title mb-2">
+                  <FaStore className="me-3" />
+                  Tienda de Premios
+                </h1>
+                <p className="text-white-50 fs-5">Canjea tus puntos por increíbles premios</p>
+              </div>
+              <div className="benefit-card text-center p-3 mt-3 mt-md-0" style={{ minWidth: '200px' }}>
+                <p className="text-white-50 mb-1 small">Tus Puntos</p>
+                <h3 className="text-gradient mb-0">
+                  <FaCoins className="me-2" />
+                  {user?.puntos || 0}
+                </h3>
+              </div>
+            </div>
+          </Col>
+        </Row>
+              <div>
+                <h1 className="text-white mb-2">
+                  <FaStore className="me-3" />
+                  Tienda EcoPuntos
+                </h1>
+                <p className="text-white-50">Canjea tus puntos por increíbles premios</p>
+              </div>
+              <Card className="shadow-sm" style={{
+                background: 'rgba(0, 0, 0, 0.6)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(79, 172, 254, 0.3)'
+              }}>
+                <Card.Body className="text-center">
+                  <p className="text-white-50 mb-1 small">Tus puntos disponibles</p>
+                  <h3 className="text-primary mb-0">
+                    <FaCoins className="me-2" />
+                    {user?.puntos || 0}
+                  </h3>
+                </Card.Body>
+              </Card>
+            </div>
+          </Col>
+        </Row>
+
+        {/* Catálogo de artículos */}
+        {articulos.length === 0 ? (
+          <Alert variant="info">
+            <Alert.Heading>No hay artículos disponibles</Alert.Heading>
+            <p className="mb-0">Pronto habrán nuevos premios para canjear. ¡Sigue reciclando!</p>
+          </Alert>
+        ) : (
+          <Row className="g-4">
+            {articulos.map((articulo) => {
+              const puedesCanjear = (user?.puntos || 0) >= articulo.puntos_requeridos;
+              
+              return (
+                <Col key={articulo.id_articulo} md={6} lg={4} xl={3}>
+                  <Card className="h-100 shadow-sm" style={{
+                    background: 'rgba(0, 0, 0, 0.6)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(79, 172, 254, 0.3)',
+                    transition: 'transform 0.2s',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                  >
+                    {articulo.imagen_url && (
+                      <Card.Img
+                        variant="top"
+                        src={articulo.imagen_url}
+                        alt={articulo.nombre}
+                        style={{ height: '200px', objectFit: 'cover' }}
+                      />
+                    )}
+                    <Card.Body className="d-flex flex-column">
+                      <div className="mb-2">
+                        {articulo.stock > 0 ? (
+                          <Badge bg="success">En Stock ({articulo.stock})</Badge>
+                        ) : (
+                          <Badge bg="danger">Agotado</Badge>
+                        )}
+                      </div>
+                      <Card.Title className="text-white">{articulo.nombre}</Card.Title>
+                      <Card.Text className="text-white-50 flex-grow-1" style={{ fontSize: '0.9rem' }}>
+                        {articulo.descripcion}
+                      </Card.Text>
+                      <div className="mt-3">
+                        <div className="d-flex align-items-center justify-content-between mb-3">
+                          <Badge bg="primary" className="p-2 fs-6">
+                            <FaCoins className="me-1" />
+                            {articulo.puntos_requeridos} pts
+                          </Badge>
+                        </div>
+                        <Button
+                          variant={puedesCanjear ? 'primary' : 'secondary'}
+                          className="w-100"
+                          onClick={() => handleCanjear(articulo)}
+                          disabled={!puedesCanjear || articulo.stock === 0}
+                        >
+                          {articulo.stock === 0 ? 'Agotado' : puedesCanjear ? (
+                            <>
+                              <FaShoppingCart className="me-2" />
+                              Canjear
+                            </>
+                          ) : (
+                            `Necesitas ${articulo.puntos_requeridos - (user?.puntos || 0)} pts más`
+                          )}
+                        </Button>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              );
+            })}
+          </Row>
+        )}
+      </Container>
+
+      {/* Modal de confirmación de canje */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton style={{
+          background: 'rgba(0, 0, 0, 0.9)',
+          color: 'white',
+          borderBottom: '1px solid rgba(79, 172, 254, 0.3)'
+        }}>
+          <Modal.Title>Confirmar Canje</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{
+          background: 'rgba(0, 0, 0, 0.9)',
+          color: 'white'
+        }}>
+          {selectedArticulo && (
+            <>
+              <div className="text-center mb-3">
+                {selectedArticulo.imagen_url && (
+                  <img
+                    src={selectedArticulo.imagen_url}
+                    alt={selectedArticulo.nombre}
+                    style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '10px' }}
+                  />
+                )}
+                <h5 className="mt-3">{selectedArticulo.nombre}</h5>
+                <p className="text-white-50">{selectedArticulo.descripcion}</p>
+              </div>
+
+              <Alert variant="info">
+                <strong>Costo:</strong> {selectedArticulo.puntos_requeridos} puntos<br />
+                <strong>Tu saldo después:</strong> {(user?.puntos || 0) - selectedArticulo.puntos_requeridos} puntos
+              </Alert>
+
+              <Form.Group className="mb-3">
+                <Form.Label>
+                  <FaMapMarkerAlt className="me-2" />
+                  Selecciona dónde recoger tu premio:
+                </Form.Label>
+                <Form.Select
+                  value={selectedPuntoAcopio}
+                  onChange={(e) => setSelectedPuntoAcopio(e.target.value)}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    border: '1px solid rgba(79, 172, 254, 0.3)',
+                    color: 'white'
+                  }}
+                >
+                  <option value="">-- Selecciona un punto de acopio --</option>
+                  {puntosAcopio.map((punto) => (
+                    <option key={punto.id_acopio} value={punto.id_acopio}>
+                      {punto.nombre_lugar} - {punto.direccion}
+                    </option>
+                  ))}
+                </Form.Select>
+                <Form.Text className="text-white-50">
+                  Deberás recoger tu premio en el punto de acopio seleccionado
+                </Form.Text>
+              </Form.Group>
+            </>
+          )}
+        </Modal.Body>
+        <Modal.Footer style={{
+          background: 'rgba(0, 0, 0, 0.9)',
+          borderTop: '1px solid rgba(79, 172, 254, 0.3)'
+        }}>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cancelar
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleConfirmarCanje}
+            disabled={!selectedPuntoAcopio || canjeando}
+          >
+            {canjeando ? 'Canjeando...' : 'Confirmar Canje'}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
+};
+
+export default Tienda;

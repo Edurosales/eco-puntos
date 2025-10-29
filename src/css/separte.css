@@ -1,0 +1,137 @@
+.separte {
+    position: relative;
+    width: 60%; /* Reducido de 66.666% */
+    max-width: 900px; /* Reducido de 1200px */
+    margin: 2rem auto;
+    padding: 3rem 2.5rem; /* Reducido de 4rem 3rem */
+    text-align: center;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
+}
+
+.separte h1 {
+    color: white;
+    font-size: 2.2rem; /* Reducido de 2.5rem */
+    margin-bottom: 1.8rem; /* Reducido de 2rem */
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+}
+
+.separte p {
+    color: white;
+    font-size: 1.2rem; /* Reducido de 1.3rem */
+    line-height: 1.6;
+    margin-bottom: 2.2rem; /* Reducido de 2.5rem */
+    animation: neonGlow 3s ease-in-out infinite alternate;
+    padding: 0 1.5rem; /* Reducido de 2rem */
+}
+
+.separte button {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 14px 35px; /* Reducido de 15px 40px */
+    font-size: 1.05rem; /* Reducido ligeramente */
+    border-radius: 28px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    font-weight: 600;
+}
+
+.separte button:hover {
+    background: white;
+    color: black;
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+}
+
+/* Animación de efecto neón para el párrafo */
+@keyframes neonGlow {
+    0% {
+        color: white;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    }
+    50% {
+        color: #00ffff;
+        text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff, 0 0 45px #00ffff;
+    }
+    100% {
+        color: white;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .separte {
+        width: 75%; /* Reducido de 80% */
+        padding: 2.5rem 2rem; /* Reducido */
+    }
+    
+    .separte h1 {
+        font-size: 2rem; /* Reducido */
+    }
+    
+    .separte p {
+        font-size: 1.1rem; /* Reducido */
+        padding: 0 1rem;
+    }
+}
+
+/* Teléfono móvil */
+@media (max-width: 768px) {
+    .separte {
+        width: 85%; /* Reducido de 90% */
+        padding: 2rem 1.5rem; /* Reducido */
+        margin: 1.5rem auto;
+    }
+    
+    .separte h1 {
+        font-size: 1.6rem; /* Reducido */
+        margin-bottom: 1.3rem; /* Reducido */
+    }
+    
+    .separte p {
+        font-size: 1rem;
+        line-height: 1.5;
+        margin-bottom: 1.8rem;
+        padding: 0;
+    }
+    
+    .separte button {
+        padding: 11px 30px; /* Reducido */
+        font-size: 0.95rem;
+    }
+}
+
+/* Teléfono móvil pequeño */
+@media (max-width: 480px) {
+    .separte {
+        width: 90%; /* Reducido de 95% */
+        padding: 1.8rem 1.2rem; /* Reducido */
+        margin: 1rem auto;
+        border-radius: 15px;
+    }
+    
+    .separte h1 {
+        font-size: 1.4rem; /* Reducido */
+        margin-bottom: 1.1rem; /* Reducido */
+    }
+    
+    .separte p {
+        font-size: 0.95rem; /* Reducido */
+        line-height: 1.5;
+        margin-bottom: 1.6rem; /* Reducido */
+    }
+    
+    .separte button {
+        padding: 10px 28px; /* Reducido */
+        font-size: 0.9rem;
+    }
+}

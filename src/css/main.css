@@ -1,0 +1,343 @@
+.topheader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    padding-top: 70px; /* Espacio para el navbar fijo */
+    min-height: 100vh;
+    overflow-x: hidden; /* Previene scroll horizontal */
+    -webkit-text-size-adjust: 100%; /* Previene zoom automático en iOS */
+    -webkit-tap-highlight-color: transparent; /* Mejora el feedback táctil */
+}
+
+/* Ajuste del padding en mobile */
+@media (max-width: 768px) {
+    body {
+        padding-top: 70px;
+    }
+}
+
+/* Efectos de luces difuminadas en el fondo - Versión responsive */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 10% 20%, rgba(79, 172, 254, 0.15) 0%, transparent 25%),
+        radial-gradient(circle at 90% 30%, rgba(0, 242, 254, 0.1) 0%, transparent 25%),
+        radial-gradient(circle at 50% 80%, rgba(29, 209, 161, 0.1) 0%, transparent 25%),
+        radial-gradient(circle at 20% 70%, rgba(18, 194, 233, 0.15) 0%, transparent 25%),
+        radial-gradient(circle at 80% 10%, rgba(79, 172, 254, 0.1) 0%, transparent 25%);
+    z-index: -1;
+    animation: float 20s ease-in-out infinite;
+    pointer-events: none; /* Mejora el rendimiento en móviles */
+}
+
+/* Animación optimizada para móviles */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-5px) scale(1.01); /* Movimiento más sutil en móviles */
+    }
+}
+
+/* Media Queries para diferentes tamaños de pantalla */
+
+/* Tablets y dispositivos medianos */
+@media screen and (max-width: 1024px) {
+    body::before {
+        background: 
+            radial-gradient(circle at 10% 20%, rgba(79, 172, 254, 0.12) 0%, transparent 30%),
+            radial-gradient(circle at 90% 30%, rgba(0, 242, 254, 0.08) 0%, transparent 30%),
+            radial-gradient(circle at 50% 80%, rgba(29, 209, 161, 0.08) 0%, transparent 30%),
+            radial-gradient(circle at 20% 70%, rgba(18, 194, 233, 0.12) 0%, transparent 30%),
+            radial-gradient(circle at 80% 10%, rgba(79, 172, 254, 0.08) 0%, transparent 30%);
+    }
+    
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0) scale(1);
+        }
+        50% {
+            transform: translateY(-3px) scale(1.005);
+        }
+    }
+}
+
+/* Móviles */
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 14px; /* Tamaño de fuente más adecuado para móviles */
+        line-height: 1.5;
+        padding: 0;
+    }
+    
+    body::before {
+        background: 
+            radial-gradient(circle at 10% 20%, rgba(79, 172, 254, 0.1) 0%, transparent 35%),
+            radial-gradient(circle at 90% 30%, rgba(0, 242, 254, 0.06) 0%, transparent 35%),
+            radial-gradient(circle at 50% 80%, rgba(29, 209, 161, 0.06) 0%, transparent 35%),
+            radial-gradient(circle at 20% 70%, rgba(18, 194, 233, 0.1) 0%, transparent 35%),
+            radial-gradient(circle at 80% 10%, rgba(79, 172, 254, 0.06) 0%, transparent 35%);
+        animation: floatMobile 25s ease-in-out infinite;
+    }
+    
+    /* Animación más lenta y suave para móviles */
+    @keyframes floatMobile {
+        0%, 100% {
+            transform: translateY(0) scale(1);
+        }
+        50% {
+            transform: translateY(-2px) scale(1.002);
+        }
+    }
+}
+
+/* Móviles pequeños */
+@media screen and (max-width: 480px) {
+    body {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+    
+    body::before {
+        background: 
+            radial-gradient(circle at 10% 20%, rgba(79, 172, 254, 0.08) 0%, transparent 40%),
+            radial-gradient(circle at 90% 30%, rgba(0, 242, 254, 0.05) 0%, transparent 40%),
+            radial-gradient(circle at 50% 80%, rgba(29, 209, 161, 0.05) 0%, transparent 40%),
+            radial-gradient(circle at 20% 70%, rgba(18, 194, 233, 0.08) 0%, transparent 40%),
+            radial-gradient(circle at 80% 10%, rgba(79, 172, 254, 0.05) 0%, transparent 40%);
+    }
+}
+
+/* Optimización para orientación horizontal en móviles */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    body::before {
+        animation-duration: 30s; /* Animación más lenta en landscape */
+    }
+}
+
+/* Prevenir efectos de parallax no deseados en algunos dispositivos */
+@media (prefers-reduced-motion: reduce) {
+    body::before {
+        animation: none;
+    }
+}
+.topnav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10%;
+    height: 70px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo img {
+    width: 100px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.05);
+}
+
+.menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    gap: 25px;
+}
+
+.menu li {
+    position: relative;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 8px 0;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Efecto neon verde al hacer hover */
+.menu a:hover {
+    color: #4CAF50;
+    text-shadow: 
+        0 0 5px #4CAF50,
+        0 0 10px #4CAF50,
+        0 0 15px #4CAF50,
+        0 0 20px #4CAF50;
+    transform: translateY(-2px);
+}
+
+/* Quitamos la selección activa */
+.menu a.selected::after {
+    display: none;
+}
+
+.menu a.selected {
+    background-color: transparent;
+    color: white;
+}
+
+.btn-login {
+    background-color: #43a047;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+}
+
+.btn-login:hover {
+    background-color: #2e7d32;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 0 10px #4CAF50,
+        0 0 20px #4CAF50;
+}
+
+.menu-toggle {
+    display: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 8px;
+    background: none;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.menu-toggle:hover {
+    color: #4CAF50;
+    text-shadow: 
+        0 0 5px #4CAF50,
+        0 0 10px #4CAF50;
+}
+
+/* 🔹 Versión Móvil */
+@media (max-width: 768px) {
+    .topnav {
+        padding: 0 5%;
+        height: 65px;
+    }
+    
+    .logo img {
+        width: 90px;
+    }
+    
+    .menu {
+        position: fixed;
+        top: 65px;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 20px 0;
+        gap: 0;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .menu.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .menu li {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .menu a {
+        display: block;
+        padding: 15px 20px;
+        font-size: 1rem;
+        color: white;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Efecto neon en móvil también */
+    .menu a:hover {
+        color: #4CAF50;
+        text-shadow: 
+            0 0 8px #4CAF50,
+            0 0 15px #4CAF50,
+            0 0 20px #4CAF50;
+        background-color: rgba(76, 175, 80, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .btn-login {
+        margin: 15px auto;
+        width: 80%;
+        max-width: 200px;
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+    
+    .btn-login:hover {
+        box-shadow: 
+            0 0 15px #4CAF50,
+            0 0 25px #4CAF50;
+    }
+    
+    .menu-toggle {
+        display: block;
+    }
+}
+
+/* Para pantras muy pequeñas */
+@media (max-width: 480px) {
+    .topnav {
+        padding: 0 15px;
+    }
+    
+    .logo img {
+        width: 80px;
+    }
+    
+    .menu a {
+        font-size: 0.95rem;
+        padding: 12px 20px;
+    }
+}

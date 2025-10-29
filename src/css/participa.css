@@ -1,0 +1,237 @@
+/* Contenedor principal de las tarjetas */
+.beneficios-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    padding: 0 15px;
+}
+
+/* Tarjetas individuales */
+.beneficio-card {
+    background: #666; /* Fondo gris */
+    border-radius: 15px;
+    width: 100%;
+    max-width: 320px;
+    overflow: hidden; /* Para que la imagen no se salga del borde */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 2px solid #888;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column; /* Organizar verticalmente */
+}
+
+.beneficio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilos para las imágenes */
+.beneficio-card img {
+    width: 100%; /* Ocupa todo el ancho */
+    height: 180px; /* Altura fija */
+    object-fit: cover; /* Cubre todo el espacio */
+    margin-bottom: 0;
+    border-radius: 13px 13px 0 0; /* Redondea solo las esquinas superiores */
+}
+
+/* Contenedor del texto */
+.beneficio-content {
+    padding: 20px;
+    text-align: center;
+    flex-grow: 1; /* Ocupa el espacio restante */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente el contenido */
+}
+
+.beneficio-card h5 {
+    color: white;
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.beneficio-card p {
+    color: white;
+    line-height: 1.5;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    padding: 0; /* Quitamos el padding */
+    border-radius: 0; /* Quitamos el redondeo */
+    margin: 0;
+    background-color: transparent; /* Quitamos el fondo gris oscuro */
+}
+
+/* Estilos para el canjear*/
+.canjeaP {
+    color: white;
+    padding: 20px 15px;
+    margin: 30px auto;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 30px;
+    background: transparent;
+}
+
+.canjeaP-content {
+    flex: 1;
+    width: 100%;
+}
+
+.canjeaP h1 {
+    color: white;
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    margin-bottom: 20px;
+}
+
+.canjeaP .descripcion {
+    color: white;
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.canjeaP .pasos-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.canjeaP .paso-item {
+    color: white;
+    padding: clamp(12px, 3vw, 15px) clamp(15px, 4vw, 20px);
+    margin-bottom: 15px;
+    border-radius: 8px;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    line-height: 1.5;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.canjeaP .paso-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid #4CAF50;
+    transform: translateX(10px);
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+}
+
+.canjeaP .paso-item:last-child {
+    margin-bottom: 0;
+}
+
+.canjeaP .imagen-container {
+    width: 100%;
+    max-width: 400px;
+    align-self: center;
+}
+
+.canjeaP .imagen-container img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Estilos de premios*/
+.premios {
+    color: white;
+    padding: 20px 15px;
+    margin: 30px auto;
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    background: transparent;
+}
+
+.premios-content {
+    flex: 1;
+    width: 100%;
+}
+
+.premios h1 {
+    color: white;
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    margin-bottom: 20px;
+}
+
+.premios .descripcion-premios {
+    color: white;
+    font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.premios .imagen-container-premios {
+    width: 100%;
+    max-width: 500px;
+    align-self: center;
+}
+
+.premios .imagen-container-premios img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Responsive para tablets y desktop */
+@media (min-width: 768px) {
+    .canjeaP {
+        flex-direction: row;
+        padding: 40px 20px;
+        gap: 40px;
+    }
+
+    .canjeaP .imagen-container {
+        flex: 0 0 auto;
+        width: 350px;
+    }
+
+    .premios {
+        flex-direction: row;
+        padding: 40px 20px;
+        gap: 40px;
+    }
+
+    .premios .imagen-container-premios {
+        flex: 0 0 auto;
+        width: 400px;
+    }
+}
+
+@media (min-width: 992px) {
+    .beneficios-container {
+        gap: 40px;
+    }
+
+    .canjeaP {
+        padding: 40px;
+    }
+
+    .canjeaP .imagen-container {
+        width: 400px;
+    }
+
+    .premios {
+        padding: 40px;
+    }
+
+    .premios .imagen-container-premios {
+        width: 500px;
+    }
+
+    .canjeaP .paso-item:hover {
+        transform: translateX(15px);
+    }
+}

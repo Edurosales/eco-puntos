@@ -1,0 +1,125 @@
+.aliados {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    justify-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.aliados img {
+    width: 250px;
+    height: 130px;
+    object-fit: contain;
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+.sedes-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        
+        .sede-card {
+            background-color: #000;
+            border-radius: 10px;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-height: 200px;
+            justify-content: center;
+        }
+        
+        .sede-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Efectos de luz más sutiles */
+        .sede-card:nth-child(4n+1), .sede-card:nth-child(4n+2) {
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(50, 200, 50, 0.15), transparent 60%),
+                radial-gradient(circle at 80% 50%, rgba(255, 220, 0, 0.15), transparent 60%),
+                #000;
+        }
+        
+        .sede-card:nth-child(4n+3), .sede-card:nth-child(4n) {
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 220, 0, 0.15), transparent 60%),
+                radial-gradient(circle at 80% 50%, rgba(50, 200, 50, 0.15), transparent 60%),
+                #000;
+        }
+        
+        .sede-imagen {
+            width: 120px;
+            height: 80px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .sede-nombre {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            padding: 0 10px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sedes-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .sede-card {
+                min-height: 180px;
+                padding: 20px 15px;
+            }
+            
+            .sede-imagen {
+                width: 100px;
+                height: 70px;
+            }
+            
+            .sede-nombre {
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .sedes-container {
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .sede-card {
+                min-height: 160px;
+                padding: 15px 10px;
+            }
+            
+            .sede-imagen {
+                width: 90px;
+                height: 60px;
+            }
+            
+            .sede-nombre {
+                font-size: 15px;
+            }
+        }
+        

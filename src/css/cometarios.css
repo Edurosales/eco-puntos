@@ -1,0 +1,158 @@
+.Resenas {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin: 0;
+    font-weight: 600;
+}
+
+.comentarios-container {
+    position: relative;
+    height: 600px;
+    overflow: hidden;
+    margin: 0 auto 30px;
+}
+
+.comentarios-track {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    transition: transform 0.6s ease;
+}
+
+.comentario-fila {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.comentario {
+    background: #2a2a3a;
+    border-radius: 8px;
+    padding: 25px;
+    border: 1px solid #3a3a4a;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.comentario:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    border-color: #6495ED;
+}
+
+.comentario-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.comentario-imagen {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #6495ED;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.comentario-nombre {
+    font-weight: 600;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.comentario-texto {
+    color: #e0e0e0;
+    line-height: 1.5;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+.comentario-fecha {
+    font-size: 0.8rem;
+    color: #888;
+    text-align: right;
+}
+
+/* Para tablets */
+@media (max-width: 1199px) and (min-width: 768px) {
+    .comentario-fila {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    .comentarios-container {
+        height: 900px;
+    }
+}
+
+/* Para móviles */
+@media (max-width: 767px) {
+    .comentario-fila {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    .comentarios-container {
+        height: 1200px;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .Resenas {
+        padding: 30px 15px;
+    }
+}
+
+.indicadores {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 12px;
+}
+
+.indicador {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #3a3a4a;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.indicador:hover {
+    background: #6495ED;
+    transform: scale(1.2);
+}
+
+.indicador.activo {
+    background: #6495ED;
+    transform: scale(1.3);
+}

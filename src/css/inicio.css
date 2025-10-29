@@ -1,0 +1,144 @@
+        .inicio {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 10%;
+            padding-top: 60px;
+            flex-wrap: wrap;
+            /* Fondo con efecto de círculo difuminado a la derecha */
+            background: radial-gradient(circle at 85% 50%, #ffffff, #000000);
+            color: #fff;
+            min-height: 90vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Efecto adicional para mejorar el difuminado */
+        .inicio::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 85% 50%, rgba(255,255,255,0.8) 0%, rgba(0,0,0,0) 70%);
+            z-index: 0;
+        }
+
+        .contenido {
+            flex: 1 1 400px;
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contenido h1 {
+            font-size: 2.5rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .contenido h3 {
+            font-size: 1.3rem;
+            color: rgb(255, 255, 255);
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .contenido p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #f0f0f0;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+        }
+
+        .funcion {
+            background-color: #00ff80;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .funcion:hover {
+            background-color: #2e7d32;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .imagen {
+            flex: 0 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .imagen img {
+            width: 350px;
+            height: auto;
+            /* Quitamos el borde redondeado y la sombra */
+            border-radius: 0;
+            box-shadow: none;
+            /* Quitamos la transición y efectos hover */
+            transition: none;
+        }
+
+        /* 🔹 Versión Móvil */
+        @media (max-width: 768px) {
+            .inicio {
+                flex-direction: column-reverse;
+                text-align: center;
+                padding: 20px;
+                padding-top: 30px;
+                background: radial-gradient(circle at 80% 30%, #ffffff, #000000);
+            }
+
+            .inicio::before {
+                background: radial-gradient(circle at 80% 30%, rgba(255,255,255,0.8) 0%, rgba(0,0,0,0) 70%);
+            }
+
+            .contenido {
+                max-width: 100%;
+            }
+
+            .contenido h1 {
+                font-size: 1.8rem;
+            }
+
+            .contenido h3 {
+                font-size: 1.1rem;
+            }
+
+            .contenido p {
+                font-size: 0.95rem;
+                color: #f0f0f0;
+                text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+            }
+
+            .funcion {
+                width: 80%;
+                margin-top: 15px;
+            }
+
+            .imagen img {
+                width: 280px;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Para pantallas muy pequeñas */
+        @media (max-width: 480px) {
+            .imagen img {
+                width: 220px;
+            }
+        }
