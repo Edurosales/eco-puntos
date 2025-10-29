@@ -18,6 +18,7 @@ const EscanearQR = () => {
   const [scanning, setScanning] = useState(false);
   const [cameras, setCameras] = useState([]);
   const [selectedCamera, setSelectedCamera] = useState(null);
+  const [lastScannedCode, setLastScannedCode] = useState('');
   const html5QrCodeRef = useRef(null);
 
   // Cargar cámaras disponibles
@@ -53,12 +54,18 @@ const EscanearQR = () => {
           qrbox: { width: 250, height: 250 }
         },
         (decodedText) => {
-          // QR escaneado exitosamente
-          console.log('QR escaneado:', decodedText);
-          setCodigo(decodedText.toUpperCase());
+          // QR escaneado exitosamente - evitar duplicados
+          const upperCode = decodedText.toUpperCase();
+          if (upperCode === lastScannedCode) {
+            return; // Ignorar si es el mismo código
+          }
+          
+          console.log('QR escaneado:', upperCode);
+          setLastScannedCode(upperCode);
+          setCodigo(upperCode);
           stopScanning();
           setActiveTab('manual');
-          success('¡Código QR detectado! Haz clic en "Reclamar Puntos"');
+          // NO mostrar notificación aquí, se mostrará al reclamar
         },
         (errorMessage) => {
           // Error al escanear (normal mientras busca)
@@ -85,6 +92,7 @@ const EscanearQR = () => {
   };
 
   const handleTabChange = (tab) => {
+    setLastScannedCode(''); // Reset del último código escaneado
     if (tab === 'camera') {
       setActiveTab(tab);
       setTimeout(() => startScanning(), 100);
@@ -114,8 +122,10 @@ const EscanearQR = () => {
         updateUser({ puntos: data.nuevos_puntos_totales });
       }
       
-      success(`¡Felicidades! Has ganado ${data.puntos_ganados} puntos`);
+      // Solo UNA notificación de éxito
+      success(`¡Felicidades! Ganaste ${data.puntos_ganados} puntos. Total: ${data.nuevos_puntos_totales}`);
       setCodigo('');
+      setLastScannedCode(''); // Limpiar para permitir escanear de nuevo
     } catch (err) {
       const mensaje = err.response?.data?.message || 'Error al reclamar puntos';
       error(mensaje);
