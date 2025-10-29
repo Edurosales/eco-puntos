@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { publicService } from '../services/clienteService';
 import '../css/home-modern.css';
 
@@ -17,7 +17,9 @@ const Reciclaje = () => {
 
   const loadPuntosAcopio = async () => {
     try {
+      console.log('Reciclaje.js - Cargando puntos de acopio...');
       const data = await publicService.getPuntosAcopioPublico();
+      console.log('Reciclaje.js - Puntos recibidos:', data);
       setPuntosAcopio(data);
       setPuntosFiltrados(data);
     } catch (error) {
@@ -67,11 +69,18 @@ const Reciclaje = () => {
     if (puntosFiltrados.length === 0) return null;
     
     // Si hay un solo punto, centrar en él
-    if (puntosFiltrados.length === 1) {
+    if (puntosFiltrados.length === 1 && puntosFiltrados[0].ubicacion_gps) {
       return `https://maps.google.com/maps?q=${puntosFiltrados[0].ubicacion_gps}&output=embed&z=15`;
     }
     
-    // Si hay múltiples puntos, usar el centro de Perú por defecto
+    // Si hay múltiples puntos, mostrar el primero con un marcador
+    // Google Maps iframe embed no soporta múltiples marcadores fácilmente
+    // Usamos el primer punto como referencia
+    if (puntosFiltrados.length > 0 && puntosFiltrados[0].ubicacion_gps) {
+      return `https://maps.google.com/maps?q=${puntosFiltrados[0].ubicacion_gps}&output=embed&z=13`;
+    }
+    
+    // Fallback: centro de Lima, Perú
     return `https://maps.google.com/maps?q=-12.046374,-77.042793&output=embed&z=12`;
   };
 
@@ -239,6 +248,41 @@ const Reciclaje = () => {
               </div>
             )}
           </div>
+          
+          {/* Lista de puntos encontrados */}
+          {!loading && puntosFiltrados.length > 0 && (
+            <div className="mt-4">
+              <h4 className="text-white mb-3">
+                Puntos de Acopio Disponibles ({puntosFiltrados.length})
+              </h4>
+              <Row className="g-3">
+                {puntosFiltrados.map((punto) => (
+                  <Col key={punto.id_acopio} md={6} lg={4}>
+                    <Card className="cta-box h-100">
+                      <Card.Body>
+                        <h5 className="text-gradient mb-2">{punto.nombre_lugar}</h5>
+                        <p className="text-white-50 small mb-2">
+                          <i className="fas fa-map-marker-alt me-2"></i>
+                          {punto.direccion}
+                        </p>
+                        {punto.distrito && (
+                          <p className="text-white-50 small mb-2">
+                            {punto.distrito}, {punto.provincia}, {punto.departamento}
+                          </p>
+                        )}
+                        {punto.recolector && (
+                          <p className="text-white-50 small mb-0">
+                            <i className="fas fa-user me-2"></i>
+                            {punto.recolector.nombre} {punto.recolector.apellido}
+                          </p>
+                        )}
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </div>
+          )}
         </Container>
       </section>
 
