@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../services/api';
 import '../css/home-modern.css';
 
 const SolicitarRecolector = () => {
@@ -36,9 +36,7 @@ const SolicitarRecolector = () => {
       }
 
       // Verificar si ya tiene un punto de acopio
-      const response = await axios.get('http://localhost:8000/api/puntos-acopio', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const response = await api.get('/puntos-acopio');
 
       // Buscar si el usuario actual tiene un punto de acopio
       const miPunto = response.data.find(p => p.user_id_recolector === user?.id_usuario);
@@ -65,16 +63,7 @@ const SolicitarRecolector = () => {
         return;
       }
 
-      const response = await axios.post(
-        'http://localhost:8000/api/acopios',
-        formData,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+      const response = await api.post('/acopios', formData);
 
       setSuccess('¡Solicitud enviada exitosamente! El administrador la revisará pronto.');
       
