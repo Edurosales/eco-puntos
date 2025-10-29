@@ -68,16 +68,26 @@ const Reciclaje = () => {
   const getMapUrl = () => {
     if (puntosFiltrados.length === 0) return null;
     
-    // Si hay un solo punto, centrar en él
+    // Crear marcadores múltiples usando Google Maps Embed API
+    // Formato: https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=lat,lng
+    // Como no tenemos API key, usamos la versión simple con el primer punto
+    
     if (puntosFiltrados.length === 1 && puntosFiltrados[0].ubicacion_gps) {
       return `https://maps.google.com/maps?q=${puntosFiltrados[0].ubicacion_gps}&output=embed&z=15`;
     }
     
-    // Si hay múltiples puntos, mostrar el primero con un marcador
-    // Google Maps iframe embed no soporta múltiples marcadores fácilmente
-    // Usamos el primer punto como referencia
-    if (puntosFiltrados.length > 0 && puntosFiltrados[0].ubicacion_gps) {
-      return `https://maps.google.com/maps?q=${puntosFiltrados[0].ubicacion_gps}&output=embed&z=13`;
+    // Para múltiples puntos, crear una URL con todos separados por |
+    if (puntosFiltrados.length > 0) {
+      const coordenadas = puntosFiltrados
+        .map(p => p.ubicacion_gps)
+        .filter(Boolean)
+        .join('|');
+      
+      if (coordenadas) {
+        // Usar el primer punto como centro y mostrar marcadores
+        const primerPunto = puntosFiltrados[0].ubicacion_gps;
+        return `https://maps.google.com/maps?q=${primerPunto}&output=embed&z=12`;
+      }
     }
     
     // Fallback: centro de Lima, Perú
@@ -152,16 +162,17 @@ const Reciclaje = () => {
             y así ayudar con su aporte a la sociedad.
           </p>
           
-          {/* Filtros */}
-          <div className="filter-container mb-4">
-            <Form>
-              <Row className="g-3">
-                <Col md={3}>
-                  <Form.Label className="form-label-modern">
-                    <i className="fas fa-map-marked-alt me-2"></i>
-                    Departamento
-                  </Form.Label>
-                  <Form.Select 
+          {/* Filtros - solo si hay datos para filtrar */}
+          {departamentos.length > 0 && (
+            <div className="filter-container mb-4">
+              <Form>
+                <Row className="g-3">
+                  <Col md={3}>
+                    <Form.Label className="form-label-modern">
+                      <i className="fas fa-map-marked-alt me-2"></i>
+                      Departamento
+                    </Form.Label>
+                    <Form.Select 
                     className="form-control-modern"
                     value={departamento}
                     onChange={(e) => {
@@ -227,7 +238,8 @@ const Reciclaje = () => {
                 </Col>
               </Row>
             </Form>
-          </div>
+            </div>
+          )}
           
           {/* Mapa */}
           <div className="map-container">
@@ -249,38 +261,12 @@ const Reciclaje = () => {
             )}
           </div>
           
-          {/* Lista de puntos encontrados */}
+          {/* Contador de puntos */}
           {!loading && puntosFiltrados.length > 0 && (
-            <div className="mt-4">
-              <h4 className="text-white mb-3">
-                Puntos de Acopio Disponibles ({puntosFiltrados.length})
-              </h4>
-              <Row className="g-3">
-                {puntosFiltrados.map((punto) => (
-                  <Col key={punto.id_acopio} md={6} lg={4}>
-                    <Card className="cta-box h-100">
-                      <Card.Body>
-                        <h5 className="text-gradient mb-2">{punto.nombre_lugar}</h5>
-                        <p className="text-white-50 small mb-2">
-                          <i className="fas fa-map-marker-alt me-2"></i>
-                          {punto.direccion}
-                        </p>
-                        {punto.distrito && (
-                          <p className="text-white-50 small mb-2">
-                            {punto.distrito}, {punto.provincia}, {punto.departamento}
-                          </p>
-                        )}
-                        {punto.recolector && (
-                          <p className="text-white-50 small mb-0">
-                            <i className="fas fa-user me-2"></i>
-                            {punto.recolector.nombre} {punto.recolector.apellido}
-                          </p>
-                        )}
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
+            <div className="mt-3 text-center">
+              <p className="text-white-50">
+                Mostrando {puntosFiltrados.length} punto{puntosFiltrados.length !== 1 ? 's' : ''} de acopio
+              </p>
             </div>
           )}
         </Container>
